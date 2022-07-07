@@ -4,6 +4,8 @@ import 'package:flutter_trip/pages/my_page.dart';
 import 'package:flutter_trip/pages/search_page.dart';
 import 'package:flutter_trip/pages/travel_page.dart';
 
+import '../pages/demo/demo_page.dart';
+
 class TabNavigator extends StatefulWidget {
   const TabNavigator({Key? key}) : super(key: key);
 
@@ -29,6 +31,7 @@ class _TabNavigatorState extends State<TabNavigator> {
           SearchPage(),
           TravelPage(),
           MyPage(),
+          DemoPage(),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
@@ -59,6 +62,10 @@ class _TabNavigatorState extends State<TabNavigator> {
               icon: Icon(Icons.account_circle, color: _defaultColor),
               activeIcon: Icon(Icons.account_circle, color: _selectColor),
               label: "我的"),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.settings, color: _defaultColor),
+              activeIcon: Icon(Icons.settings, color: _selectColor),
+              label: "Demo"),
         ],
       ),
     );
