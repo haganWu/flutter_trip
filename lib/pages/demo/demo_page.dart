@@ -12,47 +12,49 @@ class DemoPage extends StatefulWidget {
 class _DemoPageState extends State<DemoPage> {
   @override
   Widget build(BuildContext context) {
+    _item(BuildContext context, String title, page) {
+      return ElevatedButton(
+        onPressed: () {
+          NavigatorUtil.push(context, page);
+        },
+        child: Text(title),
+      );
+    }
+
     return ListView(
       children: [
         Container(
             decoration: const BoxDecoration(color: Colors.white),
             alignment: Alignment.center,
-            child: Column(
-              children: const [
-                RootNavigator(),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisSize: MainAxisSize.max,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Expanded(
+                    flex: 1,
+                    child: Column(
+                      children: [
+                        _item(context, "Http使用", const NetHttpDemoPage()),
+                      ],
+                    )),
+                Expanded(
+                    flex: 1,
+                    child: Column(
+                      children: const [
+                        Text("占位1"),
+                      ],
+                    )),
+                Expanded(
+                    flex: 1,
+                    child: Column(
+                      children: const [
+                        Text("占位2"),
+                      ],
+                    )),
               ],
             ))
       ],
-    );
-  }
-}
-
-class RootNavigator extends StatefulWidget {
-  const RootNavigator({Key? key}) : super(key: key);
-
-  @override
-  State<RootNavigator> createState() => _RootNavigatorState();
-}
-
-class _RootNavigatorState extends State<RootNavigator> {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      alignment: Alignment.center,
-      child: Column(
-        children: [
-          _item(context, "Http使用", const NetHttpDemoPage()),
-        ],
-      ),
-    );
-  }
-
-  _item(BuildContext context, String title, page) {
-    return ElevatedButton(
-      onPressed: () {
-        NavigatorUtil.push(context, page);
-      },
-      child: Text(title),
     );
   }
 }
