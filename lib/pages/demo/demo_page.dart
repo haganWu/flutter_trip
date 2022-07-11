@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_trip/pages/demo/demo_http_page.dart';
+import 'package:flutter_trip/util/navigator_util.dart';
 
 class DemoPage extends StatefulWidget {
   const DemoPage({Key? key}) : super(key: key);
@@ -11,24 +12,17 @@ class DemoPage extends StatefulWidget {
 class _DemoPageState extends State<DemoPage> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: "Demo",
-      home: Scaffold(
-          body: ListView(
-        children: [
-          Container(
-              decoration: const BoxDecoration(color: Colors.white),
-              alignment: Alignment.center,
-              child: Column(
-                children: const [
-                  RootNavigator(),
-                ],
-              ))
-        ],
-      )),
-      routes: <String, WidgetBuilder>{
-        'http': (BuildContext context) => const NetHttpDemoPage(),
-      },
+    return ListView(
+      children: [
+        Container(
+            decoration: const BoxDecoration(color: Colors.white),
+            alignment: Alignment.center,
+            child: Column(
+              children: const [
+                RootNavigator(),
+              ],
+            ))
+      ],
     );
   }
 }
@@ -47,16 +41,16 @@ class _RootNavigatorState extends State<RootNavigator> {
       alignment: Alignment.center,
       child: Column(
         children: [
-          _item("Http使用", const NetHttpDemoPage(), "http"),
+          _item(context, "Http使用", const NetHttpDemoPage()),
         ],
       ),
     );
   }
 
-  _item(String title, page, String routeName) {
+  _item(BuildContext context, String title, page) {
     return ElevatedButton(
       onPressed: () {
-        Navigator.push(context, MaterialPageRoute(builder: (context) => page));
+        NavigatorUtil.push(context, page);
       },
       child: Text(title),
     );
