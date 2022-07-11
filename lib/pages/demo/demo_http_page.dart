@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class NetHttpDemoPage extends StatefulWidget {
   const NetHttpDemoPage({Key? key}) : super(key: key);
@@ -9,6 +12,22 @@ class NetHttpDemoPage extends StatefulWidget {
 }
 
 class _NetHttpDemoPageState extends State<NetHttpDemoPage> {
+  String showResult = "";
+  String iconUrl = "";
+
+  Future<CommonModel> fetchGet() async {
+    var url = Uri.parse(
+        'http://www.devio.org/io/flutter_app/json/test_common_model.json');
+    var response = await http.get(url);
+    if (response.statusCode == 200) {
+      Utf8Decoder utf8decoder = const Utf8Decoder(); // fix 中文乱码
+      var result = json.decode(utf8decoder.convert(response.bodyBytes));
+      return CommonModel.fromJson(result);
+    } else {
+      throw Exception('Failed to load home_page.json');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,13 +43,55 @@ class _NetHttpDemoPageState extends State<NetHttpDemoPage> {
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: const <Widget>[
-            Text(
-              'Http使用',
+          children: <Widget>[
+            InkWell(
+              onTap: () {
+                fetchGet().then((value) => setState(() {
+                      showResult =
+                          '请求结果：\ntitle:${value.title}\nurl:${value.url}';
+                      iconUrl = value.icon!;
+                    }));
+              },
+              child: const Text(
+                '发起请求',
+                style: TextStyle(fontSize: 18, color: Colors.red),
+              ),
+            ),
+            Container(
+              margin: const EdgeInsets.only(top: 12),
+              child: Text(
+                showResult,
+                style: const TextStyle(color: Colors.red),
+              ),
+            ),
+            Container(
+              margin: const EdgeInsets.only(top: 12),
+              child: Image.network(iconUrl, width: 66, height: 66),
             ),
           ],
         ),
       ),
+    );
+  }
+}
+
+class CommonModel {
+  late final String? icon;
+  late final String? title;
+  late final String? url;
+  late final String? statusBarColor;
+  late final bool? hideAppBar;
+
+  CommonModel(
+      {this.icon, this.title, this.url, this.statusBarColor, this.hideAppBar});
+
+  factory CommonModel.fromJson(Map<String, dynamic> json) {
+    return CommonModel(
+      icon: json["icon"],
+      title: json["title"],
+      url: json["url"],
+      statusBarColor: json["statusBarColor"],
+      hideAppBar: json["hideAppBar"],
     );
   }
 }
