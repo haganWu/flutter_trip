@@ -4,6 +4,7 @@ import 'package:flutter_trip/util/navigator_util.dart';
 
 import 'demo_future_builder_page.dart';
 import 'demo_future_page.dart';
+import 'demo_shared_preferences_page.dart';
 
 class DemoPage extends StatefulWidget {
   const DemoPage({Key? key}) : super(key: key);
@@ -40,7 +41,10 @@ class _DemoPageState extends State<DemoPage> {
                       children: [
                         _item(context, "Http使用", const NetHttpDemoPage()),
                         _item(context, "Future使用", const FutureDemoPage()),
-                        _item(context, "FutureBuild使用", const FutureBuilderDemoPage()),
+                        _item(context, "FutureBuild",
+                            const FutureBuilderDemoPage()),
+                        _item(context, "SharedPreferences",
+                            const DemoSharedPreferences()),
                       ],
                     )),
                 Expanded(
