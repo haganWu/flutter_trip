@@ -5,6 +5,7 @@ import 'package:flutter_trip/util/navigator_util.dart';
 import 'demo_future_builder_page.dart';
 import 'demo_future_page.dart';
 import 'demo_shared_preferences_page.dart';
+import 'list/demo_list_view_page.dart';
 
 class DemoPage extends StatefulWidget {
   const DemoPage({Key? key}) : super(key: key);
@@ -45,6 +46,7 @@ class _DemoPageState extends State<DemoPage> {
                             const FutureBuilderDemoPage()),
                         _item(context, "SharedPreferences",
                             const DemoSharedPreferences()),
+                        _item(context, "ListView使用", const DemoListView()),
                       ],
                     )),
                 Expanded(
