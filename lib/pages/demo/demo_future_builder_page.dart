@@ -14,6 +14,7 @@ class FutureBuilderDemoPage extends StatefulWidget {
 }
 
 class _FutureBuilderDemoPageState extends State<FutureBuilderDemoPage> {
+  bool show = false;
 
   Future<CommonModel> fetchGet() async {
     var url = Uri.parse(
@@ -28,6 +29,45 @@ class _FutureBuilderDemoPageState extends State<FutureBuilderDemoPage> {
     }
   }
 
+  getContent() {
+    if (show) {
+      return Container(
+        margin: const EdgeInsets.only(top: 30),
+        child: FutureBuilder<CommonModel>(
+            future: fetchGet(),
+            builder:
+                (BuildContext context, AsyncSnapshot<CommonModel> snapshot) {
+              switch (snapshot.connectionState) {
+                case ConnectionState.none:
+                  return const Text("Input a URL to start");
+                case ConnectionState.waiting:
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                case ConnectionState.active:
+                  return const Text("");
+                case ConnectionState.done:
+                  if (snapshot.hasError) {
+                    return Text(
+                      '${snapshot.error}',
+                      style: const TextStyle(color: Colors.red),
+                    );
+                  } else {
+                    return Text(
+                      'title:${snapshot.data?.title}, icon:${snapshot.data?.icon},',
+                      style: const TextStyle(color: Colors.red),
+                    );
+                  }
+              }
+            }),
+      );
+    } else {
+      return Container(
+        margin: const EdgeInsets.only(top: 30),
+        child: const Text("暂无数据"),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,35 +81,24 @@ class _FutureBuilderDemoPageState extends State<FutureBuilderDemoPage> {
           child: const Icon(Icons.arrow_back),
         ),
       ),
-      body: FutureBuilder<CommonModel>(
-        future: fetchGet(),
-          builder: (BuildContext context, AsyncSnapshot<CommonModel> snapshot) {
-        switch (snapshot.connectionState) {
-          case ConnectionState.none:
-            return const Text("Input a URL to start");
-          case ConnectionState.waiting:
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          case ConnectionState.active:
-            return const Text("");
-          case ConnectionState.done:
-            if (snapshot.hasError) {
-              return Text(
-                '${snapshot.error}',
-                style: const TextStyle(color: Colors.red),
-              );
-            } else {
-              return Container(
-                margin: const EdgeInsets.only(top: 12),
-                child: Text(
-                  'title:${snapshot.data?.title}, icon:${snapshot.data?.icon},',
-                  style: const TextStyle(color: Colors.red),
-                ),
-              );
-            }
-        }
-      }),
+      body: Center(
+        child: Column(
+          children: [
+            InkWell(
+              onTap: () {
+                setState(() {
+                  show = true;
+                });
+              },
+              child: const Text(
+                '发起请求',
+                style: TextStyle(fontSize: 18, color: Colors.red),
+              ),
+            ),
+            getContent()
+          ],
+        ),
+      ),
     );
   }
 }
