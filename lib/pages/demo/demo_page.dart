@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_trip/pages/demo/demo_http_page.dart';
 import 'package:flutter_trip/util/navigator_util.dart';
 
+import 'demo_future_page.dart';
+
 class DemoPage extends StatefulWidget {
   const DemoPage({Key? key}) : super(key: key);
 
@@ -36,6 +38,7 @@ class _DemoPageState extends State<DemoPage> {
                     child: Column(
                       children: [
                         _item(context, "Http使用", const NetHttpDemoPage()),
+                        _item(context, "Future使用", const FutureDemoPage()),
                       ],
                     )),
                 Expanded(
