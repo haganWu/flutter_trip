@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_trip/pages/demo/list/demo_expansion_list_view_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../util/navigator_util.dart';
@@ -50,6 +51,12 @@ class _DemoListViewState extends State<DemoListView> {
                     minimumSize: const Size(500, 200),
                   ),
                 ),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  NavigatorUtil.push(context, const DemoExpansionListView());
+                },
+                child: const Text("可折叠展开"),
               ),
             ],
           ),
