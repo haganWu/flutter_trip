@@ -2,11 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class DemoDefaultListView extends StatefulWidget {
-  const DemoDefaultListView({Key? key}) : super(key: key);
+class DemoHorizontalListView extends StatefulWidget {
+  const DemoHorizontalListView({Key? key}) : super(key: key);
 
   @override
-  _DemoDefaultListViewState createState() => _DemoDefaultListViewState();
+  _DemoHorizontalListViewState createState() => _DemoHorizontalListViewState();
 }
 
 const CITY_NAMES = [
@@ -23,7 +23,7 @@ const CITY_NAMES = [
   "杭州"
 ];
 
-class _DemoDefaultListViewState extends State<DemoDefaultListView> {
+class _DemoHorizontalListViewState extends State<DemoHorizontalListView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,8 +36,12 @@ class _DemoDefaultListViewState extends State<DemoDefaultListView> {
           child: const Icon(Icons.arrow_back),
         ),
       ),
-      body: ListView(
-        children: _buildList(),
+      body: SizedBox(
+        height: 200,
+        child: ListView(
+          scrollDirection: Axis.horizontal,
+          children: _buildList(),
+        ),
       ),
     );
   }
@@ -48,16 +52,16 @@ class _DemoDefaultListViewState extends State<DemoDefaultListView> {
 
   Widget _item(String city) {
     return Container(
-      height: 80,
-      margin: const EdgeInsets.only(left: 16,top: 6,right: 16,bottom: 6),
+      width: 160,
+      margin: const EdgeInsets.only(left: 16, top: 6, right: 16, bottom: 6),
       alignment: Alignment.center,
       decoration: BoxDecoration(
-        //背景渐变
           gradient: const LinearGradient(colors: [Colors.red, Colors.orange]),
-          //6像素圆角
+          //背景渐变
           borderRadius: BorderRadius.circular(6.0),
-          //阴影
+          //3像素圆角
           boxShadow: const [
+            //阴影
             BoxShadow(
                 color: Colors.black54,
                 offset: Offset(2.0, 2.0),
