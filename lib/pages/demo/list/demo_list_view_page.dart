@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../../util/navigator_util.dart';
 import 'demo__horizontal_list_view_page.dart';
 import 'demo_default_list_view_page.dart';
+import 'demo_grid_view_page.dart';
 
 class DemoListView extends StatefulWidget {
   const DemoListView({Key? key}) : super(key: key);
@@ -57,6 +58,12 @@ class _DemoListViewState extends State<DemoListView> {
                   NavigatorUtil.push(context, const DemoExpansionListView());
                 },
                 child: const Text("可折叠展开"),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  NavigatorUtil.push(context, const DemoGridListView());
+                },
+                child: const Text("网格布局"),
               ),
             ],
           ),
