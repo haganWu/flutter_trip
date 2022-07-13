@@ -7,6 +7,7 @@ import '../../../util/navigator_util.dart';
 import 'demo__horizontal_list_view_page.dart';
 import 'demo_default_list_view_page.dart';
 import 'demo_grid_view_page.dart';
+import 'demo_refresh_more_list_view_page.dart';
 
 class DemoListView extends StatefulWidget {
   const DemoListView({Key? key}) : super(key: key);
@@ -64,6 +65,12 @@ class _DemoListViewState extends State<DemoListView> {
                   NavigatorUtil.push(context, const DemoGridListView());
                 },
                 child: const Text("网格布局"),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  NavigatorUtil.push(context, const DemoRefreshMoreListView());
+                },
+                child: const Text("下拉刷新/上拉加载更多"),
               ),
             ],
           ),
