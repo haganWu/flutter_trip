@@ -2,9 +2,9 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_trip/model/model_common.dart';
 import 'package:http/http.dart' as http;
 
-import 'model/model_common.dart';
 
 class FutureBuilderDemoPage extends StatefulWidget {
   const FutureBuilderDemoPage({Key? key}) : super(key: key);
