@@ -3,7 +3,9 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
 import 'package:flutter_trip/dao/home_dao.dart';
+import 'package:flutter_trip/model/grid_nav_model.dart';
 import 'package:flutter_trip/model/home_model.dart';
+import 'package:flutter_trip/widget/grid_nav.dart';
 
 const APPBAR_SCROLL_OFFSET = 100;
 
@@ -99,6 +101,7 @@ class _HomePageState extends State<HomePage> {
                     pagination: const SwiperPagination(),
                   ), //轮播
                 ),
+                GridNav(name: "Jack11"),
                 SizedBox(
                   height: 860,
                   child: ListTile(
