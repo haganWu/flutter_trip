@@ -1,5 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
+import 'package:flutter_trip/dao/home_dao.dart';
+import 'package:flutter_trip/model/home_model.dart';
 
 const APPBAR_SCROLL_OFFSET = 100;
 
@@ -16,7 +20,37 @@ class _HomePageState extends State<HomePage> {
     'https://dimg04.c-ctrip.com/images/700u0r000000gxvb93E54_810_235_85.jpg',
     'https://dimg04.c-ctrip.com/images/700c10000000pdili7D8B_780_235_57.jpg'
   ];
+  String resultString = "11";
   double appBarAlpha = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadData();
+  }
+
+  _loadData() async {
+    // HomeDao.fetch().then((result) {
+    //   setState(() {
+    //     resultString = json.encode(result);
+    //   });
+    // }).catchError((error) {
+    //   setState(() {
+    //     resultString = error.toString();
+    //   });
+    // });
+
+    try {
+      HomeModel model = await HomeDao.fetch();
+      setState(() {
+        resultString = json.encode(model.config);
+      });
+    } catch (e) {
+      setState(() {
+        resultString = e.toString();
+      });
+    }
+  }
 
   _onScroll(offset) {
     print("offset:$offset");
@@ -65,10 +99,10 @@ class _HomePageState extends State<HomePage> {
                     pagination: const SwiperPagination(),
                   ), //轮播
                 ),
-                const SizedBox(
+                SizedBox(
                   height: 860,
                   child: ListTile(
-                    title: Text("哈哈"),
+                    title: Text(resultString),
                   ),
                 )
               ],

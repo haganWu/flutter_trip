@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_trip/model/model_common.dart';
+import 'package:flutter_trip/model/common_model.dart';
 import 'package:http/http.dart' as http;
 
 
