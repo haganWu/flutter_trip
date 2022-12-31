@@ -1,9 +1,10 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
 import 'package:flutter_trip/dao/home_dao.dart';
 import 'package:flutter_trip/model/home_model.dart';
+import 'package:flutter_trip/widget/local_nav.dart';
+
+import '../model/common_model.dart';
 
 const APPBAR_SCROLL_OFFSET = 100;
 
@@ -20,8 +21,8 @@ class _HomePageState extends State<HomePage> {
     'https://dimg04.c-ctrip.com/images/700u0r000000gxvb93E54_810_235_85.jpg',
     'https://dimg04.c-ctrip.com/images/700c10000000pdili7D8B_780_235_57.jpg'
   ];
-  String resultString = "11";
   double appBarAlpha = 0;
+  List<CommonModel> localNavList = [];
 
   @override
   void initState() {
@@ -43,12 +44,10 @@ class _HomePageState extends State<HomePage> {
     try {
       HomeModel model = await HomeDao.fetch();
       setState(() {
-        resultString = json.encode(model.salesBox);
+        localNavList = model.localNavList!;
       });
     } catch (e) {
-      setState(() {
-        resultString = e.toString();
-      });
+      print(e);
     }
   }
 
@@ -69,7 +68,8 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Stack(
+      backgroundColor: const Color(0xfff2f2f2),
+      body: Stack(
       children: [
         MediaQuery.removePadding(
           removeTop: true,
@@ -99,11 +99,9 @@ class _HomePageState extends State<HomePage> {
                     pagination: const SwiperPagination(),
                   ), //轮播
                 ),
-                SizedBox(
-                  height: 860,
-                  child: ListTile(
-                    title: Text(resultString),
-                  ),
+                Padding(
+                    padding: const EdgeInsets.fromLTRB(6, 4, 6, 4),
+                    child: LocalNav(localNavList: localNavList),
                 )
               ],
             ),
