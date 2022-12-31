@@ -4,6 +4,7 @@ import 'package:flutter_trip/dao/home_dao.dart';
 import 'package:flutter_trip/model/common_model.dart';
 import 'package:flutter_trip/model/home_model.dart';
 import 'package:flutter_trip/widget/grid_nav.dart';
+import 'package:flutter_trip/widget/sub_nav.dart';
 
 import '../model/grid_nav_model.dart';
 import '../widget/local_nav.dart';
@@ -25,6 +26,7 @@ class _HomePageState extends State<HomePage> {
   ];
   List<CommonModel>? localNavList = [];
   late GridNavModel gridNavModel;
+  List<CommonModel>? subNavList = [];
   double appBarAlpha = 0;
 
   @override
@@ -39,6 +41,7 @@ class _HomePageState extends State<HomePage> {
       setState(() {
         localNavList = model.localNavList;
         gridNavModel = model.gridNav!;
+        subNavList = model.subNavList;
       });
     } catch (e) {
       print(e);
@@ -100,6 +103,10 @@ class _HomePageState extends State<HomePage> {
                     Padding(
                       padding: const EdgeInsets.fromLTRB(6, 0, 6, 4),
                       child: GridNav(gridNavModel: gridNavModel),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(6, 0, 6, 4),
+                      child: SubNav(subNavList: subNavList),
                     ),
                   ],
                 ),
