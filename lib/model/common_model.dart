@@ -17,4 +17,15 @@ class CommonModel {
       hideAppBar: json["hideAppBar"],
     );
   }
+
+  ///反序列化
+  Map<String, dynamic> toJson() {
+    return {
+      "icon": icon,
+      "title": title,
+      "url": url,
+      "statusBarColor": statusBarColor,
+      "hideAppBar": hideAppBar,
+    };
+  }
 }

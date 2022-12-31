@@ -15,6 +15,15 @@ class GridNavModel {
       travel: GridNavItem.fromJson(json["travel"]),
     );
   }
+
+  ///反序列化
+  Map<String, dynamic> toJson() {
+    return {
+      "hotel": hotel,
+      "flight": flight,
+      "travel": travel,
+    };
+  }
 }
 
 class GridNavItem {
@@ -45,5 +54,18 @@ class GridNavItem {
       item3: CommonModel.fromJson(json["item3"]),
       item4: CommonModel.fromJson(json["item4"]),
     );
+  }
+
+  ///反序列化
+  Map<String, dynamic> toJson() {
+    return {
+      "startColor": startColor,
+      "endColor": endColor,
+      "mainItem": mainItem,
+      "item1": item1,
+      "item2": item2,
+      "item3": item3,
+      "item4": item4,
+    };
   }
 }

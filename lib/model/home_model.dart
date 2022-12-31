@@ -41,5 +41,15 @@ class HomeModel {
     );
   }
 
-
+  ///反序列化
+  Map<String, dynamic> toJson() {
+    return {
+      "config": config,
+      "bannerList": bannerList,
+      "localNavList": localNavList,
+      "gridNav": gridNav,
+      "subNavList": subNavList,
+      "salesBox": salesBox,
+    };
+  }
 }

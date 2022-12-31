@@ -43,7 +43,7 @@ class _HomePageState extends State<HomePage> {
     try {
       HomeModel model = await HomeDao.fetch();
       setState(() {
-        resultString = json.encode(model.config);
+        resultString = json.encode(model.salesBox);
       });
     } catch (e) {
       setState(() {
