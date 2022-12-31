@@ -81,7 +81,7 @@ class _HiWebViewState extends State<HiWebView> {
     if (widget.hideAppBar ?? false) {
       return Container(
         color: backgroundColor,
-        height: 30,
+        height: 40,
       );
     }
     return Container(

@@ -8,15 +8,19 @@ import '../util/common_utils.dart';
 
 class GridNav extends StatelessWidget {
   final GridNavModel? gridNavModel;
-  final String name;
 
-  const GridNav({Key? key, this.gridNavModel, this.name = "HA"})
+  const GridNav({Key? key, this.gridNavModel})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: _gridViewItems(context),
+    return PhysicalModel(
+        color: Colors.transparent,
+      borderRadius: BorderRadius.circular(6),
+      clipBehavior: Clip.antiAlias,
+      child: Column(
+        children: _gridViewItems(context),
+      ),
     );
   }
 
@@ -27,14 +31,16 @@ class GridNav extends StatelessWidget {
     }
 
     if (gridNavModel?.hotel != null) {
-      _gridViewItem(context, gridNavModel!.hotel!, true, false);
+      items.add(_gridViewItem(context, gridNavModel!.hotel!, true, false));
+
     }
     if (gridNavModel?.flight != null) {
-      _gridViewItem(context, gridNavModel!.flight!, false, false);
+      items.add(_gridViewItem(context, gridNavModel!.flight!, false, false));
     }
     if (gridNavModel?.travel != null) {
-      _gridViewItem(context, gridNavModel!.travel!, false, true);
+        items.add(_gridViewItem(context, gridNavModel!.travel!, false, true));
     }
+    return items;
   }
 
   _gridViewItem(BuildContext context, GridNavItem gridNavItem, bool isFirst,
@@ -56,7 +62,7 @@ class GridNav extends StatelessWidget {
     Color endColor = Color(int.parse('0xff' + gridNavItem.endColor!));
     return Container(
       height: 88,
-      margin: isFirst ? null : const EdgeInsets.only(top: 4),
+      margin: isFirst ? null : const EdgeInsets.only(top: 1),
       decoration: BoxDecoration(
           //线性渐变
           gradient: LinearGradient(colors: [startColor, endColor]),
@@ -78,6 +84,7 @@ class GridNav extends StatelessWidget {
     return _wrapGesture(
         context,
         Stack(
+          alignment: AlignmentDirectional.topCenter,
           children: [
             Image.network(
               commonModel.icon!,
@@ -86,10 +93,13 @@ class GridNav extends StatelessWidget {
               width: 122,
               alignment: AlignmentDirectional.bottomEnd,
             ),
-            Text(
-              commonModel.title!,
-              style: const TextStyle(fontSize: 16, color: Colors.white),
-            )
+           Container(
+             margin: const EdgeInsets.only(top: 12),
+             child:  Text(
+               commonModel.title!,
+               style: const TextStyle(fontSize: 16, color: Colors.white),
+             ),
+           )
           ],
         ),
         commonModel);

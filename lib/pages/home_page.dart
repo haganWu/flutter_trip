@@ -1,11 +1,11 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
 import 'package:flutter_trip/dao/home_dao.dart';
 import 'package:flutter_trip/model/common_model.dart';
 import 'package:flutter_trip/model/home_model.dart';
+import 'package:flutter_trip/widget/grid_nav.dart';
 
+import '../model/grid_nav_model.dart';
 import '../widget/local_nav.dart';
 
 const appbarScrollOffset = 100;
@@ -23,8 +23,8 @@ class _HomePageState extends State<HomePage> {
     'https://dimg04.c-ctrip.com/images/700u0r000000gxvb93E54_810_235_85.jpg',
     'https://dimg04.c-ctrip.com/images/700c10000000pdili7D8B_780_235_57.jpg'
   ];
-  String resultString = "11";
   List<CommonModel>? localNavList = [];
+  late GridNavModel gridNavModel;
   double appBarAlpha = 0;
 
   @override
@@ -37,13 +37,11 @@ class _HomePageState extends State<HomePage> {
     try {
       HomeModel model = await HomeDao.fetch();
       setState(() {
-        resultString = json.encode(model.config);
         localNavList = model.localNavList;
+        gridNavModel = model.gridNav!;
       });
     } catch (e) {
-      setState(() {
-        resultString = e.toString();
-      });
+      print(e);
     }
   }
 
@@ -99,12 +97,10 @@ class _HomePageState extends State<HomePage> {
                       padding: const EdgeInsets.fromLTRB(6, 4, 6, 4),
                       child: LocalNav(localNavList: localNavList),
                     ),
-                    SizedBox(
-                      height: 860,
-                      child: ListTile(
-                        title: Text(resultString),
-                      ),
-                    )
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(6, 0, 6, 4),
+                      child: GridNav(gridNavModel: gridNavModel),
+                    ),
                   ],
                 ),
               ),
