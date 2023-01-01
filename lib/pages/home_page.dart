@@ -4,6 +4,7 @@ import 'package:flutter_trip/dao/home_dao.dart';
 import 'package:flutter_trip/model/common_model.dart';
 import 'package:flutter_trip/model/home_model.dart';
 import 'package:flutter_trip/model/sales_box_model.dart';
+import 'package:flutter_trip/pages/search_page.dart';
 import 'package:flutter_trip/widget/grid_nav.dart';
 import 'package:flutter_trip/widget/loading_container.dart';
 import 'package:flutter_trip/widget/sales_box.dart';
@@ -151,7 +152,7 @@ class _HomePageState extends State<HomePage> {
 
   }
   _searchBarInputBoxClick() {
-
+    NavigatorUtil.push(context, const SearchPage(hideLeft:false, hint: searchBarDefaultText,));
   }
   _onTextChanged(text) {
 

@@ -3,6 +3,10 @@ import 'package:flutter_trip/dao/search_dao.dart';
 import 'package:flutter_trip/model/search_model.dart';
 import 'package:flutter_trip/widget/search_bar.dart';
 
+import '../util/common_utils.dart';
+import '../util/navigator_util.dart';
+import '../widget/webview.dart';
+
 
 class SearchPage extends StatefulWidget {
 
@@ -74,7 +78,52 @@ class _SearchPageState extends State<SearchPage> {
       return null;
     }
     SearchItem? item = searchModel?.data![position];
-    return Text(item?.word??"");
+    return GestureDetector(
+      onTap: (){
+        HiWebView webViewPage = HiWebView(
+            url: CommonUtils.getCatchUrl(item!.url!),hideAppBar: true);
+        NavigatorUtil.push(context, webViewPage);
+      },
+      child: Container(
+        padding: const EdgeInsets.all(10),
+        decoration: const BoxDecoration(
+          border: Border(bottom: BorderSide(width: 0.3, color: Colors.grey))
+        ),
+        child: Row(
+         children: [
+          if (item?.imageUrl != null) Container(
+              width: 26,
+              height: 26,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(6.0),
+              ),
+            margin: const EdgeInsets.only(right: 6),
+             alignment: Alignment.center,
+               child: Image.network(item!.imageUrl!,width: 26, height: 26, fit: BoxFit.fill,)
+           ),
+           Column(
+             children: [
+               SizedBox(
+                 child: Row(
+                   children: [
+                     Container(
+                       margin: const EdgeInsets.only(right: 12),
+                       child:  Text(item!.word!, style: const TextStyle(color: Colors.black, fontSize: 14),),
+                     ),
+
+                    if(item.word!.length < 10) Text(item.districtname ?? "", style: const TextStyle(color: Colors.grey, fontSize: 12)),
+                    if(item.word!.length < 10 && (item.districtname != null && item.districtname!.length < 6)) Text(item.zonename ?? "", style: const TextStyle(color: Colors.grey, fontSize: 12))
+
+                   ],
+                 ),
+               )
+
+             ],
+           )
+         ],
+        ),
+      ),
+    );
   }
 
   Widget get _appBar {
@@ -126,6 +175,7 @@ class _SearchPageState extends State<SearchPage> {
 
   }
    _onTextChanged(String text) {
+    print("SearchPage _onTextChanged text:" + text);
       keyword = text;
       if(keyword == null || keyword?.length == 0) {
         setState((){

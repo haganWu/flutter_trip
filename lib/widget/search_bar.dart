@@ -150,7 +150,7 @@ class _SearchBarState extends State<SearchBar> {
             ? TextField(
               controller: _controller,
               onChanged: _onTextChanged,
-              autofocus: false,
+              autofocus: true,
               style: const TextStyle(
                 fontSize:16.0,
                 color: Colors.black,
@@ -176,7 +176,9 @@ class _SearchBarState extends State<SearchBar> {
           ): _wrapTap(
               const Icon(Icons.clear, size: 22, color: Colors.grey),
               (){
+                widget.onChanged("");
                 setState((){
+                  showClear = false;
                   _controller.clear();
                 });
               })
