@@ -119,18 +119,12 @@ class _SearchPageState extends State<SearchPage> {
            Column(
              children: [
                SizedBox(
-                 child: Row(
-                   children: [
-                     Container(
-                       margin: const EdgeInsets.only(right: 12),
-                       child:  Text(item!.word!, style: const TextStyle(color: Colors.black, fontSize: 14),),
-                     ),
-
-                    if(item.word!.length < 10) Text(item.districtname ?? "", style: const TextStyle(color: Colors.grey, fontSize: 12)),
-                    if(item.word!.length < 10 && (item.districtname != null && item.districtname!.length < 6)) Text(item.zonename ?? "", style: const TextStyle(color: Colors.grey, fontSize: 12))
-
-                   ],
-                 ),
+                 width: 340,
+                 child: _title(item),
+               ),
+               SizedBox(
+                 width: 340,
+                 child: _subTitle(item),
                )
 
              ],
@@ -155,6 +149,57 @@ class _SearchPageState extends State<SearchPage> {
     return 'images/type_' + path + '.png';
   }
 
+  _title(SearchItem? item){
+    if(item == null) {
+      return null;
+    }
+    List<TextSpan> spans = [];
+    spans.addAll(_keywordTextSpans(item.word, searchModel?.keyword));
+    spans.add(TextSpan(text: ' ' + (item!.districtname??'')+ " " + (item.zonename??''),
+        style: const TextStyle(fontSize: 14, color: Colors.grey)));
+    return RichText(text: TextSpan(children: spans));
+  }
+  _subTitle(SearchItem item){
+    return (item.price != null && item.price!.isNotEmpty &&
+        item.star != null && item.star!.isNotEmpty) ? Container(
+        margin: const EdgeInsets.only(top: 4),
+        child: RichText(
+            text: TextSpan(
+                children: <TextSpan>[
+                  TextSpan(
+                      text: item.price??'',
+                      style: const TextStyle(fontSize: 16, color: Colors.orange)
+                  ),
+                  TextSpan(
+                      text: ' ' + (item.star??''),
+                      style: const TextStyle(fontSize: 14, color: Colors.grey)
+                  )
+                ]
+            )
+        ),
+    ):null;
+  }
+
+  // 富文本
+  _keywordTextSpans(String? word, String? keyword) {
+    List<TextSpan> spans = [];
+    if(word == null || word.isEmpty || keyword == null || keyword.isEmpty ) {
+      return spans;
+    }
+    List<String> arr = word.split(keyword!);
+    TextStyle normalStyle = const TextStyle(fontSize: 16, color: Colors.black87);
+    TextStyle keywordStyle = const TextStyle(fontSize: 16, color: Colors.orange);
+    for(int i = 0; i < arr.length; i++){
+      if((i + 1) % 2 == 0) {
+        spans.add(TextSpan(text: keyword, style: keywordStyle));
+      }
+      String val = arr[i];
+      if(val.isNotEmpty){
+        spans.add(TextSpan(text: val, style: normalStyle));
+      }
+    }
+    return spans;
+  }
 
   Widget get _appBar {
     return Column(
