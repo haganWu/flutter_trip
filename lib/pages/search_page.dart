@@ -7,6 +7,22 @@ import '../util/common_utils.dart';
 import '../util/navigator_util.dart';
 import '../widget/webview.dart';
 
+const TYPES = [
+  'channelgroup',
+  'gs',
+  'plane',
+  'train',
+  'cruise',
+  'district',
+  'food',
+  'hotel',
+  'huodong',
+  'shop',
+  'sight',
+  'ticket',
+  'travelgroup',
+];
+
 
 class SearchPage extends StatefulWidget {
 
@@ -91,15 +107,14 @@ class _SearchPageState extends State<SearchPage> {
         ),
         child: Row(
          children: [
-          if (item?.imageUrl != null) Container(
-              width: 26,
-              height: 26,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(6.0),
-              ),
-            margin: const EdgeInsets.only(right: 6),
+          Container(
+            margin: const EdgeInsets.all(1),
              alignment: Alignment.center,
-               child: Image.network(item!.imageUrl!,width: 26, height: 26, fit: BoxFit.fill,)
+               child: Image(
+                 width: 26,
+                 height: 26,
+                 image: AssetImage(_typeImage(item!.type)),
+               )
            ),
            Column(
              children: [
@@ -125,6 +140,21 @@ class _SearchPageState extends State<SearchPage> {
       ),
     );
   }
+
+  _typeImage(String? type){
+    if(type == null) {
+      return 'images/type_travelgroup.png';
+    }
+    String path = 'travelgroup';
+    for(final val in TYPES){
+      if(type.contains(val)){
+        path = val;
+        break;
+      }
+    }
+    return 'images/type_' + path + '.png';
+  }
+
 
   Widget get _appBar {
     return Column(
