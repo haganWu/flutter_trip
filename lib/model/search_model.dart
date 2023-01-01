@@ -1,8 +1,9 @@
 class SearchModel {
   List<SearchItem>? data;
   String? resultPageUrl;
+  String? keyword;
 
-  SearchModel({this.data, this.resultPageUrl});
+  SearchModel({this.data, this.resultPageUrl, this.keyword});
 
   SearchModel.fromJson(Map<String, dynamic> json) {
     if (json['data'] != null) {
@@ -12,6 +13,7 @@ class SearchModel {
       });
     }
     resultPageUrl = json['resultPageUrl'];
+    keyword = json['keyword'];
   }
 
   Map<String, dynamic> toJson() {
@@ -20,6 +22,7 @@ class SearchModel {
       data['data'] = this.data!.map((v) => v.toJson()).toList();
     }
     data['resultPageUrl'] = this.resultPageUrl;
+    data['keyword'] = this.keyword;
     return data;
   }
 }
