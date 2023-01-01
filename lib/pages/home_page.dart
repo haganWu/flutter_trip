@@ -7,6 +7,7 @@ import 'package:flutter_trip/model/sales_box_model.dart';
 import 'package:flutter_trip/widget/grid_nav.dart';
 import 'package:flutter_trip/widget/loading_container.dart';
 import 'package:flutter_trip/widget/sales_box.dart';
+import 'package:flutter_trip/widget/search_bar.dart';
 import 'package:flutter_trip/widget/sub_nav.dart';
 
 import '../model/grid_nav_model.dart';
@@ -16,7 +17,7 @@ import '../widget/local_nav.dart';
 import '../widget/webview.dart';
 
 const appbarScrollOffset = 100;
-
+const searchBarDefaultText = "网红打卡 景点 酒店 美食";
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
@@ -77,67 +78,89 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: const Color(0xfff2f2f2),
-        body: LoadingContainer(isLoading: _isLoading,child: Stack(
-          children: [
-            MediaQuery.removePadding(
-              removeTop: true,
-              context: context,
-              child: RefreshIndicator(
-                onRefresh: _handleRefresh,
-                child: NotificationListener(
-                  onNotification: (scrollNotification) {
-                    if (scrollNotification is ScrollUpdateNotification &&
-                        scrollNotification.depth == 0) {
-                      //滚动并且是列表滚动的时候
-                      _onScroll(scrollNotification.metrics.pixels);
-                    }
-                    return false;
-                  },
-                  child: _listView,
-                ),
-              ),
-            ),
-            Opacity(
-              opacity: appBarAlpha,
-              child: Container(
-                height: 60,
-                decoration: const BoxDecoration(color: Colors.red),
-                child: const Center(
-                  child: Padding(
-                    padding: EdgeInsets.only(top: 20),
-                    child: Text("首页"),
+        body: LoadingContainer(
+          isLoading: _isLoading,
+          child: Stack(
+            children: [
+              MediaQuery.removePadding(
+                removeTop: true,
+                context: context,
+                child: RefreshIndicator(
+                  onRefresh: _handleRefresh,
+                  child: NotificationListener(
+                    onNotification: (scrollNotification) {
+                      if (scrollNotification is ScrollUpdateNotification &&
+                          scrollNotification.depth == 0) {
+                        //滚动并且是列表滚动的时候
+                        _onScroll(scrollNotification.metrics.pixels);
+                      }
+                      return false;
+                    },
+                    child: _listView,
                   ),
                 ),
               ),
-            )
-          ],
+              _appBar
+            ],
         ),)); //移除顶部padding
+  }
+
+  Widget get _appBar {
+   return Column(
+     children: [
+       Container(
+         decoration: const BoxDecoration(
+           gradient: LinearGradient(
+             colors: [Color(0x66000000), Colors.transparent],
+             begin: Alignment.topCenter,
+             end: Alignment.bottomCenter,
+           )
+         ),
+         child: Container(
+           padding: const EdgeInsets.only(top: 20),
+           height: 80,
+           decoration: BoxDecoration(
+             color: Color.fromARGB((appBarAlpha * 255).toInt(), 255, 255, 255)
+           ),
+           child: SearchBar(
+               defaultText: searchBarDefaultText,
+               searchBarType: appBarAlpha > 0.2 ? SearchBarType.homeLight : SearchBarType.home,
+               leftButtonClick: _searchBarLeftButtonClick,
+               rightButtonClick: _searchBarRightButtonClick,
+               speakClick: _searchBarSpeakClick,
+               inputBoxClick: _searchBarInputBoxClick,
+               onChanged: _onTextChanged
+           ),
+         ),
+       ),
+       Container(
+         height: appBarAlpha > 0.2 ? 0.5 : 0,
+         decoration: const BoxDecoration(
+           boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 0.5)]
+         ),
+       )
+     ],
+   );
+  }
+
+  _searchBarLeftButtonClick() {
+  }
+  _searchBarRightButtonClick() {
+  }
+  _searchBarSpeakClick() {
+
+  }
+  _searchBarInputBoxClick() {
+
+  }
+  _onTextChanged(text) {
+
   }
 
   Widget get _listView {
     return ListView(
       children: [
-        SizedBox(
-          height: 180,
-          child: Swiper(
-            itemCount: bannerList!.length,
-            autoplay: true,
-            itemBuilder: (BuildContext context, int index) {
-              return GestureDetector(
-                onTap: (){
-                  HiWebView webViewPage = HiWebView(
-                      url: CommonUtils.getCatchUrl(bannerList![index].url!),hideAppBar: true);
-                  NavigatorUtil.push(context, webViewPage);
-                },
-                child: Image.network(
-                  bannerList![index].icon!,
-                  fit: BoxFit.fill,
-                ),
-              );
-            },
-            pagination: const SwiperPagination(),
-          ), //轮播
-        ),
+        _banner,
         Padding(
           padding: const EdgeInsets.fromLTRB(6, 4, 6, 4),
           child: LocalNav(localNavList: localNavList),
@@ -155,6 +178,30 @@ class _HomePageState extends State<HomePage> {
           child: SalesBox(salesBox: salesBoxModel),
         ),
       ],
+    );
+  }
+
+  Widget get _banner {
+    return SizedBox(
+      height: 180,
+      child: Swiper(
+        itemCount: bannerList!.length,
+        autoplay: true,
+        itemBuilder: (BuildContext context, int index) {
+          return GestureDetector(
+            onTap: (){
+              HiWebView webViewPage = HiWebView(
+                  url: CommonUtils.getCatchUrl(bannerList![index].url!),hideAppBar: true);
+              NavigatorUtil.push(context, webViewPage);
+            },
+            child: Image.network(
+              bannerList![index].icon!,
+              fit: BoxFit.fill,
+            ),
+          );
+        },
+        pagination: const SwiperPagination(),
+      ), //轮播
     );
   }
 }
